@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: "Sofia Sans", serif;
 }
 
 body {
@@ -12,7 +14,6 @@ body {
     background-attachment: fixed;
     min-height: 100vh;
     display: flex;
-    
 }
 
 /* Стили боковой панели */
@@ -288,6 +289,19 @@ select option {
     margin-top: 10px;
     background: rgba(0, 255, 0, 0.1);
     border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.mngServBtn {
+    width: 100%;
+    margin-top: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    background: rgba(165, 78, 78, 0.1);
+}
+
+.mngServBtn:hover {
+    background: rgba(165, 78, 78, 0.15);
+    border-style: solid;
+    transform: none;
 }
 
 .add-server-btn:hover {
@@ -616,4 +630,127 @@ select option {
     to {
         filter: drop-shadow(0 0 8px rgba(255,105,180,0.6));
     }
+}
+
+/* Стили попапа добавления сервера */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    display: none;
+
+    transition: opacity 0.3s ease;
+}
+
+.server-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background: rgba(40, 40, 40, 0.95);
+    padding: 25px;
+    border-radius: 15px;
+    min-width: 400px;
+    z-index: 1000;
+    display: none;
+    border: 2px solid #ff69b4;
+    box-shadow: 0 0 35px rgba(255, 105, 180, 0.3);
+
+    transition: all 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.95);
+
+    will-change: transform, opacity; /* Оптимизация анимации */
+    backface-visibility: hidden; /* Убирает мерцание в Safari */
+}
+
+.server-popup.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.popup-header h3 {
+    color: #ff69b4;
+    font-size: 20px;
+}
+
+.close-btn {
+    color: #ff69b4;
+    font-size: 28px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: #ff1493;
+    transform: scale(1.2);
+}
+
+.server-form .form-group {
+    margin-bottom: 20px;
+}
+
+.server-form label {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.server-form input,
+.server-form select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.server-form input:focus,
+.server-form select:focus {
+    outline: none;
+    border-color: #ff69b4;
+    box-shadow: 0 0 8px rgba(255, 105, 180, 0.3);
+}
+
+.form-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: flex-end;
+}
+
+.add-btn {
+    background: rgba(255, 105, 180, 0.7) !important;
+}
+
+.add-btn:hover {
+    background: rgba(255, 105, 180, 0.8) !important;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.form-group input,
+.form-group select {
+    transition: all 0.3s ease; /* Анимация для полей ввода */
 }

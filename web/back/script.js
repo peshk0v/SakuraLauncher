@@ -5,9 +5,9 @@ window.onresize = function () {
     window.resizeTo(1000, 600);
 }
 
+eel.expose(addServer);
 function addServer(name, version, icon, index, notify=true) {
     const serverList = document.querySelector('.server-list');
-    
     const serverItem = document.createElement('button');
     serverItem.className = 'server-item';
     serverItem.onclick = function() {
@@ -25,6 +25,15 @@ function addServer(name, version, icon, index, notify=true) {
         showNotification('Сервер успешно добавлен!', 5000);
     }
     serverList.appendChild(serverItem);
+}
+
+function addServerGui(event) {
+    const adSvForm = document.getElementById('addServerForm');
+    event.preventDefault();
+
+    console.log(adSvForm.elements[4].value);
+    hideServerPopup();
+    eel.addServerFromGui(adSvForm.elements[0].value, adSvForm.elements[1].value, adSvForm.elements[2].value, adSvForm.elements[3].value);
 }
 
 eel.expose(addProfile);
@@ -47,8 +56,10 @@ function addProfile(name, index) {
 // }
 
 eel.expose(setCurProfile);
-function setCurProfile(index) {
+function setCurProfile(index, avatar) {
     const profList = document.getElementById('profilesSel');
+    const avatarProf = document.getElementById('profileAvatar');
+    avatarProf.src = avatar;
     profList.value = index  
 }
 
@@ -97,6 +108,7 @@ eel.expose(addBuild);
 function addBuild(name, version, icon, index) {
     const buildsList = document.querySelector('.builds-list');
     const instancesSelect = document.getElementById('instances');
+    const buildSelect = document.getElementById('buildSelect');
     
     const buildItem = document.createElement('div');
     buildItem.className = 'build-item';
@@ -112,5 +124,9 @@ function addBuild(name, version, icon, index) {
     
     instancesSelect.innerHTML += `<option value="${index}">${name}</option>`;
     buildsList.insertBefore(buildItem, document.querySelector('.create-build-btn'));
+    buildSelect.innerHTML += `<option value="${index}">${name}</option>`;
 }
 
+function openServerManager() {
+    location.href="http://localhost:8000/svManager.html";
+}

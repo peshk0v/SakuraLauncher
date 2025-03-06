@@ -1,0 +1,6 @@
+            <div class="avatar"">
+                <img src="http://localhost:8000/img/Icon.png" alt="Аватар" id="profileAvatar">
+            </div>
+            <select class="profile-select" id="profilesSel">
+                <option value="add-profile">Управлять профилями</option>
+            </select>

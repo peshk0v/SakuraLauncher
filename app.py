@@ -16,13 +16,6 @@ def addInstances():
         bdata = json.load(open(f'{config["path"]}instances/{instances[i]}/buildInfo.json', "r"))
         eel.addBuild(bdata["Name"], f"{bdata['Version']} {bdata['ModLoader']}", bdata["Icon"], i)
 
-def getInstances():
-    instances = os.listdir(f"{config['path']}instances")
-    buildInforms = []
-    for i in range(len(instances)):
-        buildInforms.append(json.load(open(f'{config["path"]}instances/{instances[i]}/buildInfo.json', "r")))
-    return [instances, buildInforms]
-
 def addUsersNames(profiles):
     for i in range(len(profiles)):
         eel.addProfile(profiles["profiles"][i][0], i)
@@ -38,7 +31,30 @@ if __name__ == '__main__':
     eel.addServers(servers)
     addInstances()
     addUsersNames(json.load(open(f'{config["path"]}profiles.json', "r")))
-    eel.setCurProfile(profiles["curIndex"])
+    eel.setCurProfile(profiles["curIndex"], profiles["profiles"][int(profiles["curIndex"])][1])
+
+    @eel.expose
+    def addServerFromGui(name, adress, instance, resPack):
+        # print(name, "|", adress, "|", instance, "|", resPack)
+        icon = None
+        resourcePack = None
+        if resPack == 0:
+            resourcePack = False
+        elif resPack == 2:
+            resourcePack = True
+
+        insta = getInstances()[0][int(instance)]
+        servers.append([name, adress, insta, icon, resourcePack])
+        eel.addServer(name, insta, icon, len(servers))
+        json.dump(servers, open(f'{config["path"]}servers.json', "w"))
+
+    @eel.expose
+    def getInstances():
+        instances = os.listdir(f"{config['path']}instances")
+        buildInforms = []
+        for i in range(len(instances)):
+            buildInforms.append(json.load(open(f'{config["path"]}instances/{instances[i]}/buildInfo.json', "r")))
+        return [instances, buildInforms]
 
     @eel.expose
     def initBuild(index):

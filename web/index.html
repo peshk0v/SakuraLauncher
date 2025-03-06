@@ -27,8 +27,11 @@
         <div class="server-list-container">
             <div class="server-list" id="svList">
             </div>
-            <button class="button add-server-btn">
+            <button class="button add-server-btn" onclick="showServerPopup()">
                 ＋ Добавить сервер
+            </button>
+            <button class="button mngServBtn" onclick="openServerManager()">
+                Менеджер Серверов
             </button>
         </div>
 
@@ -70,7 +73,45 @@
 
     <div class="notification-container" id="notificationContainer"></div>
 
+    <div class="overlay" id="serverOverlay" onclick="hideServerPopup()"></div>
+    <div class="server-popup" id="serverPopup">
+        <div class="popup-header">
+            <h3>Добавить новый сервер</h3>
+            <span class="close-btn" onclick="hideServerPopup()">&times;</span>
+        </div>
+        <form class="server-form" id="addServerForm" action="/apply/" method="POST">
+            <div class="form-group">
+                <label>Название:</label>
+                <input type="text" id="serverName" required>
+            </div>
+            <div class="form-group">
+                <label>Адрес:</label>
+                <input type="text" id="serverAddress" required>
+            </div>
+            <div class="form-group">
+                <label>Сборка:</label>
+                <select id="buildSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Ресурс пак:</label>
+                <select id="resourcePackSelect">
+                    <option value="0">Не Загружать</option>
+                    <option value="1">Спрашивать</option>
+                    <option value="2">Загружать</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Иконка:</label>
+                <input type="file">
+            </div>
+            <div class="form-buttons"><button type="submit" class="button add-btn">Добавить</button></div>
+        </form>
+    </div>
+
     <script>
+        const adSvForm = document.getElementById('addServerForm');
+        adSvForm.addEventListener('submit', addServerGui);
+
         // Инициализация вкладок
         document.addEventListener('DOMContentLoaded', function() {
             const firstTab = document.querySelector('.tab-btn');
@@ -78,12 +119,14 @@
         });
 
         document.getElementById('profilesSel').addEventListener('change', (e)=>{
+            const profiles = eel.getProfiles();
             console.log(e.target.value);
             if (e.target.value == "add-profile") {
                 eel.manageProfiles();
             } else {
                 eel.setCurProf(e.target.value);
-                showNotification("Ник был успешно изменён!")
+                document.getElementById('profileAvatar').src = profiles["profiles"][(parseInt(e.target.value))][1];
+                showNotification("Ник был успешно изменён!");
             }
         });
 
@@ -113,6 +156,40 @@
                 notification.classList.remove('show');
                 setTimeout(() => notification.remove(), 500);
             }, duration);
+        }
+
+        function showServerPopup() {
+            const overlay = document.getElementById('serverOverlay');
+            const popup = document.getElementById('serverPopup');
+            const buildSel = document.getElementById('buildSelect');
+            const instancesG = eel.getInstances();
+
+            overlay.style.display = 'block';
+            popup.style.display = 'block';
+            
+            for (let i = 0; i < instancesG.length; i++) {
+                buildSel.innerHTML += `<option value="${i}">${instancesG[i]}</option>`;
+            }
+
+            // Запуск анимации через следующий кадр
+            requestAnimationFrame(() => {
+                overlay.classList.add('active');
+                popup.classList.add('active');
+            });
+        }
+
+        function hideServerPopup() {
+            const overlay = document.getElementById('serverOverlay');
+            const popup = document.getElementById('serverPopup');
+            
+            overlay.classList.remove('active');
+            popup.classList.remove('active');
+            
+            // Ждем завершения анимации перед скрытием
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                popup.style.display = 'none';
+            }, 400); // Должно совпадать с временем анимации
         }
     </script>
 </body>

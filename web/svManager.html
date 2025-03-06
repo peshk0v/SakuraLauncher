@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="back/svManager.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="front/svManager.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Hello World!</h1>
+        <div class="server-list-container">
+            <div class="server-list" id="svList">
+            </div>
+        </div>
+        <button class="backBtn">
+            <img src="http://localhost:8000/img/svg/house-fill.svg" alt="houseSvg">
+            На главную
+        </button>
+    </div>
+
+    <script>
+    document.querySelector('.backBtn').addEventListener('click', function() {
+        this.classList.add('click-animation');
+        setTimeout(() => this.classList.remove('click-animation'), 500);
+        location.href="http://localhost:8000/index.html";
+    });
+    </script>
+</body>
+</html>
