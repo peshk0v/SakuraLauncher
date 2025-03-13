@@ -2,7 +2,7 @@
 [![Website](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://peshk0v.github.io/SakuraWebsite/)
 
 <div align="center">
-  <img src="web/img/Logo.png" alt="SakuraLauncher Logo" width="200"/>
+  <img src="https://github.com/peshk0v/SakuraLauncher/blob/main/web/img/Icon.png?raw=true" alt="SakuraLauncher Logo" width="200"/>
   
   # 🌸 SakuraLauncher
   
