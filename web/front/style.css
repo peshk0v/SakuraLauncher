@@ -27,6 +27,9 @@ body {
     flex-direction: column;
     gap: 15px;
     box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
 /* Стили профиля */
@@ -134,12 +137,14 @@ select option {
     flex: 1;
     padding: 30px;
     margin: 20px;
+    margin-left: 270px; /* 250px + 20px отступ */
     background: transparent;
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     backdrop-filter: blur(10px);
     color: rgba(255, 255, 255, 0.95);
     line-height: 1.6;
+    min-height: calc(100vh - 40px);
 }
 
 .content h2 {
@@ -365,6 +370,13 @@ select option {
 
 /* Стили вкладок */
 .tabs {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    z-index: 100;
+    margin: -20px -20px 20px -20px;
+    border-radius: 13px 13px 0 0;
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
@@ -375,12 +387,13 @@ select option {
 .tab-btn {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.747);
     padding: 12px 25px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: bold;
     position: relative;
 }
 
@@ -418,6 +431,8 @@ select option {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     margin-top: 15px;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
 }
 
 .tab-content.active {
@@ -431,18 +446,110 @@ select option {
 
 /* Стили контента */
 .news-item {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(40, 40, 40, 0.85);
+    border-radius: 15px;
     padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(5px);
+    margin-bottom: 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.news-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 105, 180, 0.3);
 }
 
 .news-item h3 {
+    margin: 0 0 15px 0;
     color: #ff69b4;
-    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+.news-item p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    font-size: 15px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.news-date {
+    display: inline-block;
+    font-size: 0.85em;
+    color: #ff69b4;
+    margin-top: 15px;
+    padding: 5px 12px;
+    background: rgba(255, 105, 180, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 105, 180, 0.2);
+}
+
+.news-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.news-image:hover {
+    transform: scale(1.02);
+    border-color: rgba(255, 105, 180, 0.3);
+    box-shadow: 0 5px 20px rgba(255, 105, 180, 0.2);
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 105, 180, 0.1);
+    border-left-color: #ff69b4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 30px auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Анимация появления новостей */
+.news-item {
+    animation: newsAppear 0.5s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    animation-play-state: paused;
+}
+
+@keyframes newsAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Запускаем анимацию когда элемент становится видимым */
+.news-item.active {
+    animation-play-state: running;
+}
+
+/* Удаляем старые задержки */
+/* .news-item:nth-child(2) { animation-delay: 0.1s; }
+.news-item:nth-child(3) { animation-delay: 0.2s; }
+.news-item:nth-child(4) { animation-delay: 0.3s; }
+.news-item:nth-child(5) { animation-delay: 0.4s; } */
 
 .builds-list {
     display: grid;
@@ -753,4 +860,32 @@ select option {
 .form-group input,
 .form-group select {
     transition: all 0.3s ease; /* Анимация для полей ввода */
+}
+
+/* Стилизация скроллбара для вкладки новостей */
+.tab-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tab-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.tab-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 105, 180, 0.3);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.tab-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 105, 180, 0.5);
+}
+
+/* Фикс для Firefox */
+@-moz-document url-prefix() {
+    .tab-content {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 105, 180, 0.3) rgba(0, 0, 0, 0.2);
+    }
 }

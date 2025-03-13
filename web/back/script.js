@@ -2,7 +2,7 @@ let settingsOpenned = false;
 
 
 window.onresize = function () {
-    window.resizeTo(1000, 600);
+    window.resizeTo(1200, 800);
 }
 
 eel.expose(addServer);
@@ -127,6 +127,58 @@ function addBuild(name, version, icon, index) {
     buildSelect.innerHTML += `<option value="${index}">${name}</option>`;
 }
 
-function openServerManager() {
-    location.href="http://localhost:8000/svManager.html";
+function openInstanceManager() {
+    location.href="http://localhost:8000/InstanceManager.html?mode=create";
+}
+
+eel.expose(loadNews);
+async function loadNews() {
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/peshk0v/TG-chizn_razraba/refs/heads/main/dbForSLNEWS.json');
+        const news = await response.json();
+        const newsContainer = document.getElementById('news');
+        newsContainer.innerHTML = '<h2>Новости Проекта</h2>';
+        
+        // Переворачиваем массив новостей, чтобы последние были первыми
+        news.reverse().forEach((item, index) => {
+            const newsItem = document.createElement('div');
+            newsItem.className = 'news-item';
+            newsItem.style.animationDelay = `${index * 0.1}s`;
+            let newsContent = `
+                <h3>${item.title}</h3>
+                <p>${item.text}</p>
+                <span class="news-date">${item.date}</span>
+            `;
+            
+            if (item.image) {
+                newsContent += `<img src="${item.image}" class="news-image">`;
+            }
+            
+            newsItem.innerHTML = newsContent;
+            newsContainer.appendChild(newsItem);
+            
+            // Запускаем анимацию с небольшой задержкой
+            setTimeout(() => {
+                newsItem.classList.add('active');
+            }, 50);
+        });
+    } catch (error) {
+        console.error('Ошибка при загрузке новостей:', error);
+        showNotification('Ошибка при загрузке новостей', 5000);
+    }
+}
+
+eel.expose(loadAbout);
+async function loadAbout() {
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/peshk0v/TG-chizn_razraba/refs/heads/main/DbForSlAbout.json');
+        const aboutUs = await response.json();
+        const aboutUsContainer = document.getElementById('about');
+        aboutUsContainer.innerHTML = '<h2>О нашем проекте</h2>';
+        aboutUsContainer.innerHTML += aboutUs["html"];
+
+    } catch (error) {
+        console.error('Ошибка при загрузке AboutUs:', error);
+        showNotification('Ошибка при загрузке AboutUs', 5000);
+    }
 }

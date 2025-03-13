@@ -30,9 +30,9 @@
             <button class="button add-server-btn" onclick="showServerPopup()">
                 ＋ Добавить сервер
             </button>
-            <button class="button mngServBtn" onclick="openServerManager()">
+            <!-- <button class="button mngServBtn" onclick="openInstanceManager()">
                 Менеджер Серверов
-            </button>
+            </button> -->
         </div>
 
         <button class="button settings-btn" onclick="settingsOpn()" id="sttbtn">
@@ -50,16 +50,13 @@
     
         <div class="tab-content active" id="news">
             <h2>Последние обновления</h2>
-            <div class="news-item">
-                <h3>Новая версия 1.19.3</h3>
-                <p>Добавлена поддержка свежей версии Minecraft...</p>
-            </div>
+            <div class="loading-spinner"></div>
         </div>
     
         <div class="tab-content" id="builds">
             <h2>Доступные сборки</h2>
             <div class="builds-list">
-                <button class="button create-build-btn">
+                <button class="button create-build-btn" onclick="openInstanceManager()">
                     ＋ Создать сборку
                 </button>
             </div>
@@ -109,6 +106,7 @@
     </div>
 
     <script>
+        eel.initMainPage();
         const adSvForm = document.getElementById('addServerForm');
         adSvForm.addEventListener('submit', addServerGui);
 
@@ -116,6 +114,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             const firstTab = document.querySelector('.tab-btn');
             if(firstTab) firstTab.click();
+            loadNews(); // Загружаем новости при запуске
+            loadAbout();
+        });
+
+        // Добавляем обработчик для вкладки новостей
+        document.querySelector('.tab-btn[data-tab="news"]').addEventListener('click', () => {
+            loadNews();
         });
 
         document.getElementById('profilesSel').addEventListener('change', (e)=>{

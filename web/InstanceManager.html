@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instance Manager</title>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="back/InstanceManager.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="front/InstanceManager.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-content" id="createInstanceContent">
+            <div class="title">Создание Сборки</div>
+            <div class="separator"></div>
+        </div>
+        <div class="sidebar-content" id="manageInstanceContent">HelloWorld</div>
+        <button class="backBtn">
+            <img src="http://localhost:8000/img/svg/house-fill.svg" alt="houseSvg">
+            На главную
+        </button>
+    </div>
+    <div id="instanceManagerBody" class="ManagerBody"></div>
+    <script>
+    document.querySelector('.backBtn').addEventListener('click', function() {
+        this.classList.add('click-animation');
+        setTimeout(() => this.classList.remove('click-animation'), 500);
+        location.href="http://localhost:8000/index.html";
+    });
+    const params = new URLSearchParams(window.location.search);
+    const instMode = params.get('mode');
+
+    if (instMode == "create") {
+        document.getElementById("createInstanceContent").style.display = "block";
+        document.getElementById("manageInstanceContent").style.display = "none";
+    } else if (instMode == "manage") {
+        document.getElementById("createInstanceContent").style.display = "none";
+        document.getElementById("manageInstanceContent").style.display = "block";
+    } else {
+        bodyDoc = document.getElementById("instanceManagerBody");
+        bodyDoc.classList.add("error");
+        bodyDoc.innerHTML = "Ошибка №001: Страница не найдена";
+    }
+    </script>
+</body>
+</html>
