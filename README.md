@@ -1,5 +1,5 @@
 [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/sakuralauncher)
-[![Website](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://peshk0v.github.io/SakuraWebsite/)
+[![Website](https://img.shields.io/badge/website-be00c4?style=for-the-badge&logo=About.me&logoColor=white)](https://peshk0v.github.io/SakuraWebsite/)
 
 <div align="center">
   <img src="https://github.com/peshk0v/SakuraLauncher/blob/main/web/img/Icon.png?raw=true" alt="SakuraLauncher Logo" width="200"/>
